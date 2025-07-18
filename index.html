@@ -176,4 +176,15 @@
             for (let i = 0; i < input.length; i++) {
                 inputCodes.push(input.charCodeAt(i));
             }
-            document.getElementById('inputCode').value = inputCodes.join(', 
+            document.getElementById('inputCode').value = inputCodes.join(', ');
+            
+            // 显示结果编码
+            let resultCodes = [];
+            for (let i = 0; i < newChars.length; i++) {
+                resultCodes.push(newChars.charCodeAt(i));
+            }
+            document.getElementById('resultCode').value = resultCodes.join(', ');
+        }
+    </script>
+</body>
+</html>
