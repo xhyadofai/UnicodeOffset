@@ -64,6 +64,13 @@
             background-color: #2980b9;
         }
 
+        .donate-button {
+            background-color: red;
+        }
+        .donate-button:hover {
+            background-color: darkred;
+        }
+
         .author {
             text-align: right;
             margin-bottom: 20px;
@@ -90,7 +97,10 @@
             <button onclick="offsetChar(true)">正偏移</button>
             <button onclick="offsetChar(false)">负偏移</button>
             <button onclick="resetAll()">重置</button>
-            <div class="reset-tip">如果你想要偏移其他字符，请务必点击这个！！！！还有作者是傻逼</div>
+            <div class="reset-tip">如果你想要偏移其他字符，请务必点击这个！！！！作者是NaNe308</div>
+        </div>
+        <div class="button-group">
+            <button class="donate-button" onclick="window.location.href='https://afdian.tv/a/matterldle'">捐款</button>
         </div>
         
         <label for="result">结果:</label>
@@ -166,15 +176,4 @@
             for (let i = 0; i < input.length; i++) {
                 inputCodes.push(input.charCodeAt(i));
             }
-            document.getElementById('inputCode').value = inputCodes.join(', ');
-            
-            // 显示结果编码
-            let resultCodes = [];
-            for (let i = 0; i < newChars.length; i++) {
-                resultCodes.push(newChars.charCodeAt(i));
-            }
-            document.getElementById('resultCode').value = resultCodes.join(', ');
-        }
-    </script>
-</body>
-</html>
+            document.getElementById('inputCode').value = inputCodes.join(', 
