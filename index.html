@@ -50,6 +50,10 @@
             display: flex;
             gap: 15px;
         }
+        .reset-tip {
+            color: black;
+            align-self: center;
+        }
         button {
             background-color: #3498db;
             color: white;
@@ -85,6 +89,8 @@
         <div class="button-group">
             <button onclick="offsetChar(true)">正偏移</button>
             <button onclick="offsetChar(false)">负偏移</button>
+            <button onclick="resetAll()">重置</button>
+            <div class="reset-tip">如果你想要偏移其他字符，请务必点击这个！！！！还有作者是傻逼</div>
         </div>
         
         <label for="result">结果:</label>
@@ -99,6 +105,16 @@
     <script>
         let lastInput = '';
         let lastResult = '';
+
+        function resetAll() {
+            document.getElementById('inputChar').value = '';
+            document.getElementById('inputCode').value = '';
+            document.getElementById('offsetValue').value = 1;
+            document.getElementById('result').value = '';
+            document.getElementById('resultCode').value = '';
+            lastInput = '';
+            lastResult = '';
+        }
 
         function offsetChar(isPositive) {
             let inputCodeStr = document.getElementById('inputCode').value.trim();
