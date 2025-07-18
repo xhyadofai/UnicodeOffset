@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unicode偏移工具</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 800px;
+            margin: 30px auto;
+            padding: 25px;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            color: #2c3e50;
+            margin-top: 0;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+        label {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        input, button {
+            padding: 10px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        input:focus {
+            border-color: #3498db;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+        }
+        .offset-input {
+            width: 80px;
+        }
+        .button-group {
+            display: flex;
+            gap: 15px;
+        }
+        button {
+            background-color: #3498db;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        .author {
+            text-align: right;
+            margin-bottom: 20px;
+            font-size: 24px;
+            color: #3498db;
+            font-weight: bold;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Unicode 偏移工具</h2>
+        <label for="inputChar">输入字符:</label>
+        <input type="text" id="inputChar" style="border: 2px solid #ccc;">
+        
+        <label for="inputCode">输入字符编码:</label>
+        <input type="text" id="inputCode">
+        
+        <label for="offsetValue">偏移量:</label>
+        <input type="number" id="offsetValue" class="offset-input" value="1" min="1">
+        
+        <div class="button-group">
+            <button onclick="offsetChar(true)">正偏移</button>
+            <button onclick="offsetChar(false)">负偏移</button>
+        </div>
+        
+        <label for="result">结果:</label>
+        <input type="text" id="result" readonly style="border: 2px solid #ccc;">
+        
+        <label for="resultCode">结果编码:</label>
+        <input type="text" id="resultCode">
+    </div>
+        <div class="author">by NaNe308</div>
+    </div>
+
+    <script>
+        let lastInput = '';
+        let lastResult = '';
+
+        function offsetChar(isPositive) {
+            let inputCodeStr = document.getElementById('inputCode').value.trim();
+            let inputText = document.getElementById('inputChar').value;
+            
+            let input;
+            if (inputCodeStr) {
+                try {
+                    const codes = inputCodeStr.split(',').map(code => parseInt(code.trim()));
+                    if (codes.some(isNaN)) {
+                        alert('请输入有效的数字编码，用逗号分隔');
+                        return;
+                    }
+                    input = codes.map(code => String.fromCharCode(code)).join('');
+                    // 如果编码转换后的字符和上次输入相同，使用上次结果
+                    if (input === lastInput && lastResult) {
+                        input = lastResult;
+                    }
+                    document.getElementById('inputChar').value = input;
+                } catch (e) {
+                    alert('编码解析失败，请检查输入格式');
+                    return;
+                }
+            } else {
+                if (inputText === lastInput && lastResult) {
+                    input = lastResult;
+                } else {
+                    input = inputText;
+                }
+            }
+            
+            if (!input) return;
+
+            const offset = parseInt(document.getElementById('offsetValue').value) || 1;
+            let newChars = '';
+            
+            for (let i = 0; i < input.length; i++) {
+                const code = input.charCodeAt(i);
+                const newCode = isPositive ? code + offset : code - offset;
+                newChars += String.fromCharCode(newCode);
+            }
+            
+            document.getElementById('result').value = newChars;
+            lastResult = newChars;
+            lastInput = document.getElementById('inputChar').value;
+            
+            // 显示输入字符编码
+            let inputCodes = [];
+            for (let i = 0; i < input.length; i++) {
+                inputCodes.push(input.charCodeAt(i));
+            }
+            document.getElementById('inputCode').value = inputCodes.join(', ');
+            
+            // 显示结果编码
+            let resultCodes = [];
+            for (let i = 0; i < newChars.length; i++) {
+                resultCodes.push(newChars.charCodeAt(i));
+            }
+            document.getElementById('resultCode').value = resultCodes.join(', ');
+        }
+    </script>
+</body>
+</html>
